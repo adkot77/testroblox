@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox тест · Junior / Middle / Senior (чёткие вопросы)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+      background: linear-gradient(145deg, #1b2a3a 0%, #0f1a26 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .test-container {
+      max-width: 950px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 36px;
+      padding: 28px 24px;
+      box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.6);
+    }
+    h1 {
+      font-size: 2.3rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    h1 span {
+      background: #00b06b;
+      font-size: 1rem;
+      padding: 4px 14px;
+      border-radius: 40px;
+      color: #fff;
+      font-weight: 500;
+      box-shadow: inset 0 1px 3px rgba(255,255,255,0.3), 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .level-badge {
+      display: inline-block;
+      background: #2d3e54;
+      padding: 6px 18px;
+      border-radius: 30px;
+      color: #ccddee;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      border-left: 4px solid #ffb347;
+    }
+    .level-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .level-btn {
+      background: transparent;
+      border: 1.5px solid #3e5368;
+      color: #bdd0e4;
+      font-weight: 600;
+      font-size: 1.2rem;
+      padding: 10px 24px;
+      border-radius: 48px;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      transition: 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .level-btn.active {
+      background: #2a6d9c;
+      border-color: #8fcbff;
+      color: white;
+      box-shadow: 0 0 15px #2a6d9c88;
+    }
+    .level-btn:not(.active):hover { background: #1e3a4e; border-color: #6f9bc0; }
+    .question-card {
+      background: rgba(20, 35, 50, 0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 28px;
+      padding: 26px 28px;
+      margin: 16px 0 30px;
+      border: 1px solid #3a556b;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 12px 18px -8px black;
+    }
+    .question-text {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #f0f6ff;
+      margin-bottom: 24px;
+      line-height: 1.3;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .option {
+      background: #1d2e3f;
+      border-radius: 60px;
+      padding: 14px 22px;
+      border: 1.5px solid #3b566b;
+      color: #e2ecf5;
+      font-size: 1.15rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .option:hover { background: #25495f; border-color: #6da5d3; }
+    .option.selected {
+      background: #1e6b4c;
+      border-color: #7ce0b3;
+      color: white;
+      box-shadow: 0 0 12px #1e6b4caa;
+    }
+    .option-prefix {
+      font-weight: 700;
+      background: #10212b;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 30px;
+      color: #b0d0f0;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    button {
+      background: #1f405a;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 48px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #f0f9ff;
+      border: 1px solid #5480a3;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #0f1e28;
+      transition: 0.1s ease;
+      backdrop-filter: blur(4px);
+    }
+    button:active { transform: translateY(4px); box-shadow: 0 2px 0 #0f1e28; }
+    button:disabled { opacity: 0.4; transform: none; box-shadow: 0 4px 0 #0f1e28; pointer-events: none; }
+    .finish-btn { background: #b56532; border-color: #f5b57a; box-shadow: 0 6px 0 #6e3c1c; }
+    .result-panel {
+      margin-top: 30px;
+      background: #11212bdd;
+      border-radius: 24px;
+      padding: 20px 24px;
+      backdrop-filter: blur(10px);
+      border: 1px solid #4a6c85;
+    }
+    .score { font-size: 2rem; font-weight: 800; color: #ffd966; }
+    .answer-review { margin-top: 20px; max-height: 360px; overflow-y: auto; padding-right: 8px; }
+    .review-item { padding: 12px 10px; border-bottom: 1px solid #345165; color: #cfdef0; }
+    .correct-answer { color: #a3e0a3; font-weight: 600; }
+    .wrong-answer { color: #ffa09c; text-decoration: line-through wavy #ff6e6e; }
+    .restart-link { margin-top: 20px; text-align: center; }
+    .restart-link button { background: #2c4e66; box-shadow: 0 4px 0 #14232e; padding: 10px 28px; font-size: 1rem; }
+    .hidden { display: none; }
+    .question-index { color: #9ebdd6; margin-bottom: 6px; font-weight: 500; }
+    footer { margin-top: 10px; color: #7089a0; text-align: right; }
+  </style>
+</head>
+<body>
+<div class="test-container" id="testContainer">
+  <h1>🎮 Roblox Studio <span>чёткий тест</span></h1>
+  <div class="level-badge" id="levelDisplay">Junior · основы</div>
+  
+  <div class="level-tabs">
+    <button class="level-btn active" data-level="junior">🟢 Junior</button>
+    <button class="level-btn" data-level="middle">🟡 Middle</button>
+    <button class="level-btn" data-level="senior">🔴 Senior</button>
+  </div>
+
+  <div id="quizArea">
+    <div class="question-card">
+      <div class="question-index" id="qIndex">Вопрос 1 / 10</div>
+      <div class="question-text" id="questionText">Загрузка...</div>
+      <div class="options" id="optionsContainer"></div>
+    </div>
+    <div class="nav-buttons">
+      <button id="prevBtn" disabled>← Назад</button>
+      <button id="nextBtn">Далее →</button>
+      <button id="finishBtn" class="finish-btn hidden">📋 Завершить тест</button>
+    </div>
+  </div>
+
+  <div id="resultArea" class="result-panel hidden">
+    <div style="display: flex; align-items: baseline; gap: 20px;">
+      <div class="score" id="scoreDisplay">0 / 0</div>
+      <div style="color:#b8d4f0;">Правильных: <span id="correctCount">0</span></div>
+    </div>
+    <div class="answer-review" id="reviewList"></div>
+    <div class="restart-link">
+      <button id="restartBtn">🔄 Пройти заново</button>
+    </div>
+  </div>
+  <footer>⚡ методичка Roblox · 10 вопросов · однозначные ответы</footer>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ---------- ОБНОВЛЁННЫЕ ВОПРОСЫ (чёткие, однозначные) ----------
+    const questionsDB = {
+      junior: [
+        { text: "Какая команда в Lua выводит текст в консоль (Output)?", options: ["echo()", "console.log()", "print()", "say()"], correct: 2 },
+        { text: "Что делает цикл 'for i = 1, 5 do' ?", options: ["Повторяет блок кода 5 раз", "Ждёт 5 секунд", "Создаёт 5 объектов", "Бесконечный цикл"], correct: 0 },
+        { text: "Каким свойством закрепляют деталь (Part), чтобы она не падала под действием гравитации?", options: ["Locked = true", "Anchored = true", "Fixed = true", "CanCollide = false"], correct: 1 },
+        { text: "Что такое SpawnLocation?", options: ["Точка появления игрока при старте/респавне", "Место спавна монстров", "Точка сохранения прогресса", "Телепорт"], correct: 0 },
+        { text: "Как сделать деталь полностью прозрачной (невидимой)?", options: ["Transparency = 1", "Visible = false", "Alpha = 0", "CanCollide = false"], correct: 0 },
+        { text: "Какая функция приостанавливает выполнение скрипта ровно на 2 секунды?", options: ["sleep(2)", "wait(2)", "delay(2)", "pause(2)"], correct: 1 },
+        { text: "Как в Lua объявить локальную переменную с именем 'hp' и значением 100?", options: ["var hp = 100", "local hp = 100", "hp := 100", "int hp = 100"], correct: 1 },
+        { text: "Что делает вызов Instance.new('Part')?", options: ["Клонирует существующий Part", "Создаёт новый объект Part", "Удаляет Part", "Перемещает Part в Workspace"], correct: 1 },
+        { text: "Какое свойство используется для изменения цвета детали (не через BrickColor)?", options: ["Color", "Color3", "Material", "Texture"], correct: 1 },
+        { text: "Как добавить готовую модель из Toolbox на сцену?", options: ["Перетащить её из Toolbox в рабочую область", "Нажать Insert → Model", "Импорт через File", "Скопировать Asset ID"], correct: 0 }
+      ],
+      middle: [
+        { text: "Как правильно получить объект игрока, который коснулся детали (в событии Touched)?", options: ["hit.Parent", "game.Players:GetPlayerFromCharacter(hit.Parent)", "hit.Parent.Humanoid", "hit.Parent.Player"], correct: 1 },
+        { text: "Что такое CFrame в Roblox?", options: ["Структура, хранящая позицию и ориентацию объекта", "Только координаты X,Y,Z", "Цвет и материал", "Физическое свойство"], correct: 0 },
+        { text: "Где обычно хранят модели-шаблоны для клонирования во время игры (не видны при старте)?", options: ["Workspace", "ServerStorage или ReplicatedStorage", "StarterPack", "Lighting"], correct: 1 },
+        { text: "Как запустить ранее загруженную анимацию (AnimationTrack), полученную через humanoid:LoadAnimation()?", options: ["animation:Start()", "track:Play()", "PlayAnimation()", "Run()"], correct: 1 },
+        { text: "Как добавить на сцену точечный источник света (освещает во все стороны)?", options: ["Вставить объект 'Light'", "Вставить объект 'PointLight'", "Вставить 'SpotLight'", "Включить свойство 'Glow'"], correct: 1 },
+        { text: "Для чего нужен RemoteEvent в Roblox?", options: ["Для связи клиента и сервера (вызов функций/событий)", "Сохранения настроек игрока", "Загрузки анимаций", "Управления звуком"], correct: 0 },
+        { text: "Какой из вариантов гарантированно остановит выполнение цикла while true?", options: ["break", "return", "stop()", "exit()"], correct: 0 },
+        { text: "Какой сервис используется для плавного перемещения и анимации свойств объектов?", options: ["TweenService", "RunService", "PathfindingService", "CollectionService"], correct: 0 },
+        { text: "Что произойдёт, если у детали установить CanCollide = false?", options: ["Она не будет сталкиваться с другими объектами", "Она станет невидимой", "Она перестанет падать", "Её нельзя будет удалить"], correct: 0 },
+        { text: "В каком объекте создают интерфейс (GUI), чтобы он отображался у всех игроков (например, магазин)?", options: ["StarterGui", "PlayerGui", "ScreenGui внутри StarterGui", "ReplicatedStorage"], correct: 2 }
+      ],
+      senior: [
+        { text: "Какая функция в Lua генерирует случайное целое число от 1 до 10 включительно?", options: ["math.random(1, 10)", "random(1,10)", "rand(1,10)", "math.rand(1,10)"], correct: 0 },
+        { text: "Какой сервис Roblox используется для поиска пути (pathfinding) для NPC?", options: ["TweenService", "PathfindingService", "NavigationService", "RoutePlanner"], correct: 1 },
+        { text: "Что должна возвращать таблица в ModuleScript, чтобы её можно было использовать через require()?", options: ["return { ... }", "export default", "module.exports = {}", "function get() end"], correct: 0 },
+        { text: "Для чего применяется BillboardGui?", options: ["Отображение текста/изображения над объектом в 3D-мире", "Создание главного меню", "Показ здоровья игрока", "Кнопки в интерфейсе"], correct: 0 },
+        { text: "Какой объект добавляют к Part, чтобы отслеживать клики мыши по нему?", options: ["ClickDetector", "MouseClick", "ProximityPrompt", "Tool"], correct: 0 },
+        { text: "Что произойдёт при выполнении local part = Instance.new('Part'); part.Parent = workspace?", options: ["Создастся новый Part и появится в игре", "Скопируется существующий Part", "Удалится Part", "Переместится Part в workspace"], correct: 0 },
+        { text: "Как правильно клонировать объект из ReplicatedStorage?", options: ["local clone = original:Clone()", "clone = original:Copy()", "Instance.new(original)", "original:Duplicate()"], correct: 0 },
+        { text: "Какая функция рекомендуется для паузы внутри цикла без заморозки игры (вместо wait())?", options: ["wait()", "task.wait()", "delay()", "sleep()"], correct: 1 },
+        { text: "Что делает require(путь_к_ModuleScript) в Lua?", options: ["Загружает и выполняет ModuleScript, возвращая его результат", "Копирует скрипт", "Удаляет модуль", "Импортирует анимацию"], correct: 0 },
+        { text: "Как изменить скорость ходьбы персонажа игрока (WalkSpeed) из скрипта?", options: ["humanoid.WalkSpeed = 30", "player.Speed = 30", "character.Velocity = 30", "humanoid:SetSpeed(30)"], correct: 0 }
+      ]
+    };
+
+    // ---------- СОСТОЯНИЕ ----------
+    let currentLevel = 'junior';
+    let questions = [];
+    let userAnswers = [];
+    let currentIndex = 0;
+    let testFinished = false;
+
+    const levelDisplay = document.getElementById('levelDisplay');
+    const qIndexSpan = document.getElementById('qIndex');
+    const questionText = document.getElementById('questionText');
+    const optionsDiv = document.getElementById('optionsContainer');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const finishBtn = document.getElementById('finishBtn');
+    const quizArea = document.getElementById('quizArea');
+    const resultArea = document.getElementById('resultArea');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    const correctCountSpan = document.getElementById('correctCount');
+    const reviewList = document.getElementById('reviewList');
+    const restartBtn = document.getElementById('restartBtn');
+    const levelBtns = document.querySelectorAll('.level-btn');
+
+    function loadLevel(level) {
+      currentLevel = level;
+      questions = questionsDB[level] || questionsDB.junior;
+      userAnswers = new Array(questions.length).fill(-1);
+      currentIndex = 0;
+      testFinished = false;
+      
+      levelBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.level === level);
+      });
+      
+      const levelNames = { junior: 'Junior · основы', middle: 'Middle · практика', senior: 'Senior · профи' };
+      levelDisplay.textContent = levelNames[level] || 'Junior';
+      
+      quizArea.classList.remove('hidden');
+      resultArea.classList.add('hidden');
+      finishBtn.classList.add('hidden');
+      nextBtn.classList.remove('hidden');
+      prevBtn.classList.remove('hidden');
+      
+      renderQuestionAtIndex(currentIndex);
+      updateNavButtons();
+    }
+
+    function renderQuestionAtIndex(idx) {
+      const q = questions[idx];
+      questionText.textContent = q.text;
+      qIndexSpan.textContent = `Вопрос ${idx+1} / ${questions.length}`;
+      
+      let html = '';
+      const letters = ['A', 'B', 'C', 'D'];
+      q.options.forEach((opt, optIdx) => {
+        const selectedClass = (userAnswers[idx] === optIdx) ? 'selected' : '';
+        html += `<div class="option ${selectedClass}" data-opt-index="${optIdx}">
+          <span class="option-prefix">${letters[optIdx]}</span>${opt}</div>`;
+      });
+      optionsDiv.innerHTML = html;
+      
+      document.querySelectorAll('.option').forEach(optDiv => {
+        optDiv.addEventListener('click', () => {
+          if (testFinished) return;
+          const optIndex = parseInt(optDiv.dataset.optIndex);
+          document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+          optDiv.classList.add('selected');
+          userAnswers[idx] = optIndex;
+          updateNavButtons();
+        });
+      });
+      updateNavButtons();
+    }
+
+    function updateNavButtons() {
+      prevBtn.disabled = (currentIndex === 0);
+      const isLast = (currentIndex === questions.length - 1);
+      if (isLast) {
+        nextBtn.classList.add('hidden');
+        finishBtn.classList.remove('hidden');
+      } else {
+        nextBtn.classList.remove('hidden');
+        finishBtn.classList.add('hidden');
+      }
+    }
+
+    function goToNext() {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestionAtIndex(currentIndex);
+      }
+    }
+
+    function goToPrev() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestionAtIndex(currentIndex);
+      }
+    }
+
+    function calculateScore() {
+      let correct = 0;
+      questions.forEach((q, idx) => { if (userAnswers[idx] === q.correct) correct++; });
+      return { correct, total: questions.length };
+    }
+
+    function showResults() {
+      testFinished = true;
+      quizArea.classList.add('hidden');
+      resultArea.classList.remove('hidden');
+      
+      const { correct, total } = calculateScore();
+      scoreDisplay.textContent = `${correct} / ${total}`;
+      correctCountSpan.textContent = correct;
+      
+      let reviewHtml = '';
+      const letters = ['A', 'B', 'C', 'D'];
+      questions.forEach((q, idx) => {
+        const userAns = userAnswers[idx];
+        const isCorrect = (userAns === q.correct);
+        const userLetter = (userAns !== -1) ? letters[userAns] : '—';
+        const correctLetter = letters[q.correct];
+        const userText = (userAns !== -1) ? q.options[userAns] : '(нет ответа)';
+        const correctText = q.options[q.correct];
+        
+        reviewHtml += `<div class="review-item"><strong>${idx+1}. ${q.text}</strong><br>`;
+        if (isCorrect) {
+          reviewHtml += `<span class="correct-answer">✅ Ваш ответ: ${userLetter}) ${userText} — верно</span>`;
+        } else {
+          reviewHtml += `<span class="wrong-answer">❌ Ваш ответ: ${userLetter}) ${userText}</span><br>`;
+          reviewHtml += `<span class="correct-answer">✔ Правильный: ${correctLetter}) ${correctText}</span>`;
+        }
+        reviewHtml += `</div>`;
+      });
+      reviewList.innerHTML = reviewHtml;
+    }
+
+    function restartTest() { loadLevel(currentLevel); }
+
+    prevBtn.addEventListener('click', goToPrev);
+    nextBtn.addEventListener('click', goToNext);
+    finishBtn.addEventListener('click', () => {
+      if (userAnswers.includes(-1) && !confirm('Не все вопросы отвечены. Завершить?')) return;
+      showResults();
+    });
+    restartBtn.addEventListener('click', restartTest);
+    
+    levelBtns.forEach(btn => {
+      btn.addEventListener('click', () => loadLevel(btn.dataset.level));
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (testFinished) return;
+      if (e.key === 'ArrowRight' && !nextBtn.classList.contains('hidden')) goToNext();
+      else if (e.key === 'ArrowLeft' && !prevBtn.disabled) goToPrev();
+    });
+
+    loadLevel('junior');
+  })();
+</script>
+</body>
+</html>
